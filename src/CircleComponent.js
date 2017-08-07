@@ -1,10 +1,12 @@
 import React from 'react';
+import Constants from './Constants';
 
 class Circle extends React.Component {
     constructor() {
         super();
         this.updateCanvas = this.updateCanvas.bind(this);
         this.animate = this.animate.bind(this);
+        this.drawArc = this.drawArc.bind(this);
     }
 
     componentDidMount() {
@@ -18,6 +20,14 @@ class Circle extends React.Component {
         this.animate(ctx, current);
     }
 
+    drawArc (ctx, xCoordinate, yCoordinate, radiusOuterCircle, start, finish, color) {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.arc(xCoordinate, yCoordinate, radiusOuterCircle, start, finish);
+        ctx.stroke();
+
+    }
+
     animate(ctx, current, arcCurrentLength) {
         let radiusOuterCircle = 40;
         let radiusInnerCircle = 30;
@@ -26,17 +36,15 @@ class Circle extends React.Component {
         let start = 0;
         let outerThis = this;
 
+        //clear the canvas --- for writing the number evrytime
         ctx.clearRect(0, 0, 200, 200);
 
-        ctx.beginPath();
-        ctx.strokeStyle = "black";
-        ctx.arc(95, 50, radiusOuterCircle, 0, 2*Math.PI);
-        ctx.stroke();
+        // draw the outer circle
+        this.drawArc(ctx, 95, 50, radiusOuterCircle, start, circumference, "black");
 
-        ctx.beginPath();
-        ctx.strokeStyle = this.props.color;
-        ctx.arc(95, 50, radiusInnerCircle, start, arcCurrentLength);
-        ctx.stroke();
+        // draw the inner circle
+        this.drawArc(ctx, 95, 50, radiusInnerCircle, start, arcCurrentLength, this.props.color);
+
         current++;
 
         if (current < finish + 1) {
@@ -44,15 +52,16 @@ class Circle extends React.Component {
                 outerThis.animate(ctx, current, circumference * current / 100 + start);
             });
         }
+
+        ctx.font = Constants.FONT_STYLE;
         ctx.fillText(current - 1, 90, 55);
-        ctx.font = "12px Arial";
         ctx.fillText(this.props.percentage.name, 55, 130);
     }
 
     render() {
         return (
             <div className="App">
-                <canvas ref={this.props.id} width={200} height={200}/>
+                <canvas ref={this.props.id} width={this.props.width} height={this.props.height}/>
             </div>
         );
     }

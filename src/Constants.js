@@ -10,7 +10,8 @@ let Constants = {
     DATA_FOR_JOBS_ESTIMATED: {
         "value": 15,
         "name": "Jobs Estimated"
-    }
+    },
+    FONT_STYLE: "12px Serif bold"
 };
 
 module.exports = Constants;
