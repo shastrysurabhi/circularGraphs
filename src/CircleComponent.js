@@ -36,7 +36,7 @@ class Circle extends React.Component {
         let start = 0;
         let outerThis = this;
 
-        //clear the canvas --- for writing the number evrytime
+        //clear the canvas --- for writing the number everytime
         ctx.clearRect(0, 0, 200, 200);
 
         // draw the outer circle
@@ -48,13 +48,14 @@ class Circle extends React.Component {
         current++;
 
         if (current < finish + 1) {
-            requestAnimationFrame(function () {
+            requestAnimationFrame(() => {
                 outerThis.animate(ctx, current, circumference * current / 100 + start);
             });
         }
 
         ctx.font = Constants.FONT_STYLE;
-        ctx.fillText(current - 1, 90, 55);
+        let percentageText = current - 1+ '%';
+        ctx.fillText(percentageText, 90, 55);
         ctx.fillText(this.props.percentage.name, 55, 130);
     }
 
